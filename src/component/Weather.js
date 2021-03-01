@@ -7,7 +7,8 @@ import axios from 'axios';
 const OPEN_WEATHER_API_KEY = "8033adc521a7ac5cec854d10f38a4234";
 
 export default function Weather() {
-    const [weather, setWeather] = useState();
+    const [weather, setWeather] = useState([]);
+    const [isLoading, setLoading] = useState(false);
     
     useEffect(() => {
         getLocation();
@@ -25,45 +26,65 @@ export default function Weather() {
 
     /* 날씨 정보 가져오기 */
     const getWeather = async (coords) => {
-        const { data } = await axios.get(
-            `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&exclude=daliy&appid=${OPEN_WEATHER_API_KEY}`
+        
+        await axios.get(
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&appid=${OPEN_WEATHER_API_KEY}&units=metric`
         ).then((res) => {
-            console.log('날씨 정보 ##', res)
-            setWeather(data);
-        }         
-        ).catch((err) => {
-            console.log('에러 ##', err);
-        })
+            console.log(res.data.daily);
+            setLoading(true);
+            setWeather(res.data.daily);
+        }).catch((err) => {
+            console.log(err);
+        });
+        
     }
 
-    return (
-        
-        <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
+    return (        
+        <>
+        {!isLoading ?
+            <View>
+                <Text>
+                    로딩 중
+                </Text>
+            </View>
+            :
+            <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
             <View style={styles.inputBox}>
                 <TextInput 
                     style={styles.inputText} 
                     placeholder={"지역 입력"}                    
                 />
             </View>
-            <View style={styles.weatherBox}>
-                <View style={{flexDirection: 'row', padding: 10}}>
-                    <View style={{width: '50%'}}>
-                        <Text style={{fontSize: 20, color: '#fff'}}>
-                            MON
-                        </Text>
-                    </View>
-                    <View> 
-                        <Text style={{fontSize: 20, color: '#fff'}}>
-                            날씨
-                        </Text>
-                    </View>
-                </View>
-            </View>
-            <View style={styles.weatherBox2}>
+            {weather.map((item, index) => {
 
-            </View>
+                return (
+                    <React.Fragment key={index}>
+                        <View style={styles.weatherBox}>
+                            <View style={{flexDirection: 'row', padding: 10}}>
+                                <View style={{width: '50%'}}>
+                                    <Text style={{fontSize: 20, color: '#fff'}}>
+                                        MON
+                                    </Text>
+                                </View>
+                                <View> 
+                                    <Text style={{fontSize: 20, color: '#fff'}}>
+                                        날씨
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+                        {/* <View style={styles.weatherBox2}>
+
+                        </View> */}
+                    </React.Fragment>
+                )
+            })}
+            
+            
         </LinearGradient>
+        }
         
+        </>
     )
 }
 
