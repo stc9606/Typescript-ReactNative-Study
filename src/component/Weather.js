@@ -1,8 +1,40 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Geolocation from '@react-native-community/geolocation';
+import axios from 'axios';
+
+const OPEN_WEATHER_API_KEY = "8033adc521a7ac5cec854d10f38a4234";
 
 export default function Weather() {
+    const [weather, setWeather] = useState();
+    
+    useEffect(() => {
+        getLocation();
+    }, [])
+
+    /* 현재 위치 정보 가져오기 */
+    const getLocation = async () => {
+        await Geolocation.getCurrentPosition(position => {            
+            getWeather(position.coords);
+
+        }, error => {
+            console.log('?', error);
+        }, { enableHighAccuracy: true });
+    }
+
+    /* 날씨 정보 가져오기 */
+    const getWeather = async (coords) => {
+        const { data } = await axios.get(
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&exclude=daliy&appid=${OPEN_WEATHER_API_KEY}`
+        ).then((res) => {
+            console.log('날씨 정보 ##', res)
+            setWeather(data);
+        }         
+        ).catch((err) => {
+            console.log('에러 ##', err);
+        })
+    }
 
     return (
         
@@ -26,6 +58,9 @@ export default function Weather() {
                         </Text>
                     </View>
                 </View>
+            </View>
+            <View style={styles.weatherBox2}>
+
             </View>
         </LinearGradient>
         
@@ -60,6 +95,15 @@ const styles = StyleSheet.create({
         // alignSelf: 'center',
         justifyContent: 'center',        
         marginTop: 30
+    },
+    weatherBox2: {
+        height: 300,
+        width: '100%',
+        backgroundColor: '#fff',        
+        // alignSelf: 'center',
+        borderBottomStartRadius: 10,
+        borderBottomEndRadius: 10,
+        justifyContent: 'center',
     },
     weatherInput: {
 
