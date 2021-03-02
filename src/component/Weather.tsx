@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TextInput, FlatList, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
@@ -52,32 +52,38 @@ export default function Weather() {
                     style={styles.inputText} 
                     placeholder={"지역 입력"}                    
                 />
-            </View>
-            {weather.map((item : any, index : any) => {      
-                const week = ['일', '월', '화', '수', '목', '금', '토'];                
-
-                return (
-                    <React.Fragment key={index}>
-                        <View style={styles.weatherBox}>
-                            <View style={{flexDirection: 'row', padding: 10}}>
-                                <View style={{width: '50%'}}>
-                                    <Text style={{fontSize: 20, color: '#fff'}}>
-                                        {week[new Date(item.dt * 1000).getDay()]}
-                                    </Text>
-                                </View>
-                                <View> 
-                                    <Text style={{fontSize: 20, color: '#fff'}}>
-                                        {item.temp.day}
-                                    </Text>
+            </View>             
+            <FlatList 
+                horizontal={false}
+                showsHorizontalScrollIndicator={false}
+                data={weather}
+                keyExtractor={(index: number) => index.toString()}
+                renderItem={({item, index} : {item : any, index : number}) => {
+                    const week = ['일', '월', '화', '수', '목', '금', '토'];                
+                    return (
+                        <View>
+                            <View style={styles.weatherBox}>
+                                <View style={{flexDirection: 'row', padding: 10}}>
+                                    <View style={{width: '50%'}}>
+                                        <Text style={{fontSize: 20, color: '#fff'}}>
+                                            {week[new Date(item.dt * 1000).getDay()]}
+                                        </Text>
+                                    </View>
+                                    <View> 
+                                        <Text style={{fontSize: 20, color: '#fff'}}>
+                                            {item.temp.day}
+                                        </Text>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                        {/* <View style={styles.weatherBox2}>
+                            {/* <View style={styles.weatherBox2}>
 
-                        </View> */}
-                    </React.Fragment>
-                )
-            })}
+                            </View> */}
+                        </View>
+                    )
+                }}
+            />        
+
             
             
         </LinearGradient>
