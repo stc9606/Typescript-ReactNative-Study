@@ -61,7 +61,7 @@ export default function Weather() {
                 renderItem={({item, index} : {item : any, index : number}) => {
                     const week = ['일', '월', '화', '수', '목', '금', '토'];                
                     return (
-                        <View>
+                        <View key={index}>
                             <View style={styles.weatherBox}>
                                 <View style={{flexDirection: 'row', padding: 10}}>
                                     <View style={{width: '50%'}}>
@@ -76,9 +76,11 @@ export default function Weather() {
                                     </View>
                                 </View>
                             </View>
-                            {/* <View style={styles.weatherBox2}>
-
-                            </View> */}
+                            <View style={styles.weatherBox2}>
+                                <View>
+                                    
+                                </View>
+                            </View>
                         </View>
                     )
                 }}
