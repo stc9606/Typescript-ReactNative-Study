@@ -4,6 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
 
+
 const OPEN_WEATHER_API_KEY = "8033adc521a7ac5cec854d10f38a4234";
 
 export default function Weather() {
@@ -13,24 +14,21 @@ export default function Weather() {
     useEffect(() => {
         getLocation();
     }, [])
-
-    /* 현재 위치 정보 가져오기 */
+    
     const getLocation = async () => {
-        await Geolocation.getCurrentPosition(position => {            
+        await Geolocation.getCurrentPosition((position : any)=> {            
             getWeather(position.coords);
 
-        }, error => {
+        }, (error : any) => {
             console.log('?', error);
         }, { enableHighAccuracy: true });
     }
 
-    /* 날씨 정보 가져오기 */
-    const getWeather = async (coords) => {
+    const getWeather = async (coords : any) => {
         
         await axios.get(
             `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&appid=${OPEN_WEATHER_API_KEY}&units=metric`
-        ).then((res) => {
-            console.log(res.data.daily);
+        ).then((res) => {            
             setLoading(true);
             setWeather(res.data.daily);
         }).catch((err) => {
@@ -55,7 +53,8 @@ export default function Weather() {
                     placeholder={"지역 입력"}                    
                 />
             </View>
-            {weather.map((item, index) => {
+            {weather.map((item : any, index : any) => {      
+                const week = ['일', '월', '화', '수', '목', '금', '토'];                
 
                 return (
                     <React.Fragment key={index}>
@@ -63,12 +62,12 @@ export default function Weather() {
                             <View style={{flexDirection: 'row', padding: 10}}>
                                 <View style={{width: '50%'}}>
                                     <Text style={{fontSize: 20, color: '#fff'}}>
-                                        MON
+                                        {week[new Date(item.dt * 1000).getDay()]}
                                     </Text>
                                 </View>
                                 <View> 
                                     <Text style={{fontSize: 20, color: '#fff'}}>
-                                        날씨
+                                        {item.temp.day}
                                     </Text>
                                 </View>
                             </View>
