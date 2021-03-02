@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, FlatList, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
+import ImageModule from '../module/image/Image';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Icon2 from 'react-native-vector-icons/Feather';
 
 
 const OPEN_WEATHER_API_KEY = "8033adc521a7ac5cec854d10f38a4234";
@@ -57,37 +60,70 @@ export default function Weather() {
                 horizontal={false}
                 showsHorizontalScrollIndicator={false}
                 data={weather}
-                keyExtractor={(index: number) => index.toString()}
+                // keyExtractor={(index: number) => index.toString()}
                 renderItem={({item, index} : {item : any, index : number}) => {
                     const week = ['일', '월', '화', '수', '목', '금', '토'];                
                     return (
-                        <View key={index}>
+                        <View style={{flex: 1}} key={index}>
                             <View style={styles.weatherBox}>
                                 <View style={{flexDirection: 'row', padding: 10}}>
-                                    <View style={{width: '50%'}}>
-                                        <Text style={{fontSize: 20, color: '#fff'}}>
+                                    <View style={{width: '50%', justifyContent: 'center'}}>
+                                        <Text style={{fontSize: 25, color: '#fff'}}>
                                             {week[new Date(item.dt * 1000).getDay()]}
                                         </Text>
+                                        
                                     </View>
-                                    <View> 
-                                        <Text style={{fontSize: 20, color: '#fff'}}>
-                                            {item.temp.day}
-                                        </Text>
+                                    <View style={{width:'50%', alignItems:'flex-end'}}>
+                                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                            <Text style={{fontSize: 20, color: '#fff'}}>
+                                                {Math.round(item.temp.day)}°
+                                            </Text>
+                                            <View style={{marginLeft: 10, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+                                                <Text style={{color: '#ddd'}}>
+                                                    H : {Math.round(item.temp.max)}°
+                                                </Text>
+                                                <Text style={{color: '#ddd'}}>
+                                                    L : {Math.round(item.temp.min)}°
+                                                </Text>
+                                            </View>
+                                        </View>
                                     </View>
                                 </View>
                             </View>
                             <View style={styles.weatherBox2}>
-                                <View>
-                                    
-                                </View>
+                                <View style={styles.weatherDetail}>
+                                    <ImageModule imagePath={item.weather[0].description} />                                                       
+                                    <Text style={{marginLeft: 10, fontSize: 50, color: '#192f6a'}}>
+                                        {Math.round(item.temp.day)}°
+                                    </Text>
+                                </View>                          
+                                <View style={{marginTop: 15, padding: 20}}>
+                                    <View style={styles.weatherDetail2}>
+                                        <View style={{flexDirection:'row', marginRight: 30, alignItems: 'center'}}>
+                                            <Icon name="umbrella-outline" size={25} />
+                                            <Text style={{marginLeft: 10}}>
+                                                {item.pop}%
+                                            </Text>
+                                        </View>
+                                        <View style={{marginRight: 30,flexDirection:'row',alignItems: 'center'}}>
+                                            <Icon2 name="wind" size={25}/>
+                                            <Text style={{marginLeft: 10}}>
+                                                {item.wind_speed}m/s
+                                            </Text>
+                                        </View>
+                                        <View style={{flexDirection:'row',alignItems: 'center'}}>
+                                            <Icon name="water" size={25} />
+                                            <Text style={{marginLeft: 5}}>
+                                                {item.humidity}%
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>      
                             </View>
                         </View>
                     )
                 }}
-            />        
-
-            
-            
+            />                    
         </LinearGradient>
         }
         
@@ -115,6 +151,7 @@ const styles = StyleSheet.create({
         marginLeft: 30
     },
     weatherBox: {
+        flex: 1,
         height: 55,
         width: '100%',
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
@@ -125,16 +162,28 @@ const styles = StyleSheet.create({
         marginTop: 30
     },
     weatherBox2: {
-        height: 300,
+        flex: 1,
+        height: 200,
         width: '100%',
         backgroundColor: '#fff',        
-        // alignSelf: 'center',
+        alignSelf: 'center',
         borderBottomStartRadius: 10,
         borderBottomEndRadius: 10,
-        justifyContent: 'center',
+        // justifyContent: 'center',
     },
-    weatherInput: {
-
+    weatherDetail: {
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        marginTop: 20
+    },
+    weatherDetail2: {
+        flexDirection: 'row',
+        height: 50,        
+        backgroundColor: '#f4f4f4',
+        justifyContent: 'center',
+        alignItems: 'center',
+        
     },
     buttonText: {
         fontSize: 18,
