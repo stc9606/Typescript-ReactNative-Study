@@ -7,11 +7,11 @@
  */
 
 import React from 'react';
-import Weather from './src/component/Weather';
+import RootNavigation from './src/navigation/RootNavigation'
 
 const App = () => {
-  return (    
-      <Weather />    
+  return (        
+      <RootNavigation />        
   )
 }
 

@@ -49,7 +49,7 @@ export default function Weather() {
                 </Text>
             </View>
             :
-            <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
+            <LinearGradient colors={['#eda218', '#edb44a', '#e6bc6e']} style={styles.linearGradient}>
             <View style={styles.inputBox}>
                 <TextInput 
                     style={styles.inputText} 
@@ -79,10 +79,10 @@ export default function Weather() {
                                                 {Math.round(item.temp.day)}°
                                             </Text>
                                             <View style={{marginLeft: 10, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
-                                                <Text style={{color: '#ddd'}}>
+                                                <Text style={{color: '#fff'}}>
                                                     H : {Math.round(item.temp.max)}°
                                                 </Text>
-                                                <Text style={{color: '#ddd'}}>
+                                                <Text style={{color: '#fff'}}>
                                                     L : {Math.round(item.temp.min)}°
                                                 </Text>
                                             </View>
@@ -93,27 +93,27 @@ export default function Weather() {
                             <View style={styles.weatherBox2}>
                                 <View style={styles.weatherDetail}>
                                     <ImageModule imagePath={item.weather[0].description} />                                                       
-                                    <Text style={{marginLeft: 10, fontSize: 50, color: '#192f6a'}}>
+                                    <Text style={{marginLeft: 10, fontSize: 50, color: '#e6bc6e'}}>
                                         {Math.round(item.temp.day)}°
                                     </Text>
                                 </View>                          
                                 <View style={{marginTop: 15, padding: 20}}>
                                     <View style={styles.weatherDetail2}>
                                         <View style={{flexDirection:'row', marginRight: 30, alignItems: 'center'}}>
-                                            <Icon name="umbrella-outline" size={25} />
-                                            <Text style={{marginLeft: 10}}>
+                                            <Icon name="umbrella-outline" size={25} color={'#fff'} />
+                                            <Text style={{marginLeft: 10, color:'#fff'}}>
                                                 {item.pop}%
                                             </Text>
                                         </View>
                                         <View style={{marginRight: 30,flexDirection:'row',alignItems: 'center'}}>
-                                            <Icon2 name="wind" size={25}/>
-                                            <Text style={{marginLeft: 10}}>
+                                            <Icon2 name="wind" size={25} color={'#fff'}/>
+                                            <Text style={{marginLeft: 10, color:'#fff'}}>
                                                 {item.wind_speed}m/s
                                             </Text>
                                         </View>
                                         <View style={{flexDirection:'row',alignItems: 'center'}}>
-                                            <Icon name="water" size={25} />
-                                            <Text style={{marginLeft: 5}}>
+                                            <Icon name="water" size={25} color={'#fff'}/>
+                                            <Text style={{marginLeft: 10, color:'#fff'}}>
                                                 {item.humidity}%
                                             </Text>
                                         </View>
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     weatherDetail2: {
         flexDirection: 'row',
         height: 50,        
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#e6bc6e',
         justifyContent: 'center',
         alignItems: 'center',
         
